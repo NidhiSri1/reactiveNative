@@ -14,7 +14,7 @@ export default function App() {
     const getCityName = (cName) => {
         setCityName(cName);
     };
-
+  
     return (
         <NativeRouter>
             <SafeAreaView style={styles.container}>
