@@ -15,25 +15,37 @@ import { add_asteroid_list } from "../Redux/action";
 export const Home = () => {
     const navigate = useNavigate();
     const [id, setId] = useState();
+    const [disabled, setDisable] = useState(true);
 
     const dispatch = useDispatch();
     const selector = useSelector((store) => store.asteroid_det);
-
+    console.log(id);
     const handleChange = (e) => {
+        console.log(e);
+        if (e === undefined) {
+            setDisable(true);
+        } else {
+            setDisable(false);
+        }
         setId(e);
     };
 
     const handleSubmit = async () => {
-        try {
-            let response = await axios.get(
-                `https://api.nasa.gov/neo/rest/v1/neo/${id}?api_key=tHCqLdNS3GWe508ZlSP6zVFpt9l7dut0Uvwv00Rr`
-            );
-            // console.log("response", response.data);
-            dispatch(add_asteroid_list(response.data));
-            navigate("/asteroid");
-        } catch (err) {
-            alert("Please Click again");
-            console.log(err);
+        if (id !== undefined) {
+            // console.log("ji", id);
+            try {
+                let response = await axios.get(
+                    `https://api.nasa.gov/neo/rest/v1/neo/${id}?api_key=tHCqLdNS3GWe508ZlSP6zVFpt9l7dut0Uvwv00Rr`
+                );
+                // console.log("response", response.data);
+                dispatch(add_asteroid_list(response.data));
+                navigate("/asteroid");
+            } catch (err) {
+                alert("Please Click again");
+                console.log(err);
+            }
+        } else {
+            alert("Please enter valid Asteroid Id");
         }
     };
 
